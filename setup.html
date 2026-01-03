@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración - FacturaFlow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+            --radius: 8px;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .setup-container {
+            background-color: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 800px;
+            padding: 30px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .logo i {
+            color: var(--secondary);
+        }
+        
+        .subtitle {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+        
+        .step {
+            background-color: #f8f9fa;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .step-title {
+            display: inline;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        .step-content {
+            margin-top: 15px;
+            padding-left: 40px;
+        }
+        
+        .code-block {
+            background-color: #282c34;
+            color: #abb2bf;
+            border-radius: var(--radius);
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .code-comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+        
+        .code-keyword {
+            color: #c678dd;
+        }
+        
+        .code-string {
+            color: #98c379;
+        }
+        
+        .code-function {
+            color: #61afef;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #219653;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        
+        .btn-block {
+            width: 100%;
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: var(--radius);
+            display: none;
+        }
+        
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        
+        .status.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+        
+        .firebase-config {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: var(--radius);
+            border: 1px dashed #ccc;
+        }
+        
+        .firebase-config h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .firebase-config ol {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .firebase-config li {
+            margin-bottom: 10px;
+        }
+        
+        .firebase-config a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+        
+        .firebase-config a:hover {
+            text-decoration: underline;
+        }
+        
+        .config-input {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            background-color: #f1f1f1;
+            padding: 8px;
+            border-radius: 4px;
+            margin: 5px 0;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--success);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .note {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: var(--radius);
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .note strong {
+            color: #856404;
+        }
+        
+        @media (max-width: 768px) {
+            .setup-container {
+                padding: 20px;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .actions .btn {
+                width: 100%;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="setup-container">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>FacturaFlow</span>
+            </div>
+            <p class="subtitle">Configuración inicial de la base de datos</p>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">1</span>
+            <h3 class="step-title">Configurar Firebase</h3>
+            <div class="step-content">
+                <p>Primero necesitas configurar Firebase en la consola:</p>
+                
+                <div class="firebase-config">
+                    <h3>Pasos para configurar Firebase:</h3>
+                    <ol>
+                        <li>Ve a <a href="https://console.firebase.google.com" target="_blank">Firebase Console</a></li>
+                        <li>Crea un nuevo proyecto (ej: "facturaflow")</li>
+                        <li>En la página principal del proyecto, haz clic en el ícono <code>&lt;/&gt;</code> para agregar una app web</li>
+                        <li>Ingresa un nombre para tu app (ej: "FacturaFlow Web")</li>
+                        <li>No habilites Firebase Hosting ahora</li>
+                        <li>Haz clic en "Registrar app"</li>
+                        <li>Copia la configuración de Firebase</li>
+                    </ol>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Pega tu configuración de Firebase aquí:</label>
+                        <textarea id="firebase-config-input" class="form-control" rows="8" placeholder="// Configuración de Firebase
+const firebaseConfig = {
+  apiKey: 'TU_API_KEY',
+  authDomain: 'TU_PROYECTO.firebaseapp.com',
+  projectId: 'TU_PROYECTO',
+  storageBucket: 'TU_PROYECTO.appspot.com',
+  messagingSenderId: 'TU_SENDER_ID',
+  appId: 'TU_APP_ID'
+};"></textarea>
+                    </div>
+                    
+                    <button id="save-config-btn" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Guardar Configuración
+                    </button>
+                    
+                    <div id="config-status" class="status"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">2</span>
+            <h3 class="step-title">Configurar Authentication</h3>
+            <div class="step-content">
+                <p>Activa el método de autenticación por email/contraseña:</p>
+                
+                <div class="code-block">
+                    <span class="code-comment">// En Firebase Console, ve a:</span><br>
+                    <span class="code-comment">// Authentication → Método de inicio de sesión</span><br>
+                    <span class="code-comment">// Habilita "Correo electrónico/contraseña"</span><br>
+                    <span class="code-comment">// Haz clic en "Guardar"</span>
+                </div>
+                
+                <button id="test-auth-btn" class="btn btn-primary">
+                    <i class="fas fa-user-check"></i> Probar Authentication
+                </button>
+                
+                <div id="auth-status" class="status"></div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">3</span>
+            <h3 class="step-title">Configurar Firestore Database</h3>
+            <div class="step-content">
+                <p>Crea la base de datos Firestore y aplica las reglas de seguridad:</p>
+                
+                <div class="code-block">
+                    <span class="code-comment">// En Firebase Console, ve a:</span><br>
+                    <span class="code-comment">// Firestore Database → Crear base de datos</span><br>
+                    <span class="code-comment">// Selecciona "Comenzar en modo de prueba"</span><br>
+                    <span class="code-comment">// Elige una ubicación cercana</span><br>
+                    <span class="code-comment">// Haz clic en "Habilitar"</span>
+                </div>
+                
+                <p><strong>Reglas de seguridad para Firestore:</strong></p>
+                <div class="code-block">
+                    <span class="code-comment">// Copia estas reglas en Firestore → Reglas</span><br>
+                    <span class="code-keyword">rules_version</span> = <span class="code-string">'2'</span>;<br>
+                    <span class="code-keyword">service</span> cloud.firestore {<br>
+                    &nbsp;&nbsp;<span class="code-keyword">match</span> /databases/{database}/documents {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// Reglas para usuarios</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">match</span> /users/{userId} {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">allow</span> read, write: <span class="code-keyword">if</span> request.auth != <span class="code-keyword">null</span> && request.auth.uid == userId;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// Reglas para clientes</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">match</span> /clients/{clientId} {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">allow</span> read, write: <span class="code-keyword">if</span> request.auth != <span class="code-keyword">null</span> && <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(resource.data.userId == request.auth.uid || <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request.auth.token.role == <span class="code-string">'accountant'</span>);<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// Reglas para facturas</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">match</span> /invoices/{invoiceId} {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">allow</span> read, write: <span class="code-keyword">if</span> request.auth != <span class="code-keyword">null</span> && <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resource.data.userId == request.auth.uid;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// Reglas para presupuestos</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">match</span> /budgets/{budgetId} {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">allow</span> read, write: <span class="code-keyword">if</span> request.auth != <span class="code-keyword">null</span> && <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resource.data.userId == request.auth.uid;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// Reglas para facturas comerciales</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">match</span> /commercialInvoices/{invoiceId} {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">allow</span> read, write: <span class="code-keyword">if</span> request.auth != <span class="code-keyword">null</span> && <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resource.data.userId == request.auth.uid;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;}<br>
+                    }
+                </div>
+                
+                <button id="init-firestore-btn" class="btn btn-primary">
+                    <i class="fas fa-database"></i> Inicializar Firestore
+                </button>
+                
+                <div id="firestore-status" class="status"></div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">4</span>
+            <h3 class="step-title">Configurar Storage</h3>
+            <div class="step-content">
+                <p>Crea Storage y aplica las reglas de seguridad:</p>
+                
+                <div class="code-block">
+                    <span class="code-comment">// En Firebase Console, ve a:</span><br>
+                    <span class="code-comment">// Storage → Comenzar</span><br>
+                    <span class="code-comment">// Sigue las instrucciones (acepta los términos)</span><br>
+                    <span class="code-comment">// Elige una ubicación</span><br>
+                    <span class="code-comment">// Haz clic en "Listo"</span>
+                </div>
+                
+                <p><strong>Reglas de seguridad para Storage:</strong></p>
+                <div class="code-block">
+                    <span class="code-comment">// Copia estas reglas en Storage → Reglas</span><br>
+                    <span class="code-keyword">rules_version</span> = <span class="code-string">'2'</span>;<br>
+                    <span class="code-keyword">service</span> firebase.storage {<br>
+                    &nbsp;&nbsp;<span class="code-keyword">match</span> /b/{bucket}/o {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">match</span> /invoices/{userId}/{allPaths=**} {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">allow</span> read, write: <span class="code-keyword">if</span> request.auth != <span class="code-keyword">null</span> && request.auth.uid == userId;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;}<br>
+                    }
+                </div>
+                
+                <button id="test-storage-btn" class="btn btn-primary">
+                    <i class="fas fa-hdd"></i> Probar Storage
+                </button>
+                
+                <div id="storage-status" class="status"></div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">5</span>
+            <h3 class="step-title">Crear Datos de Ejemplo</h3>
+            <div class="step-content">
+                <p>Crear datos de ejemplo para probar el sistema (opcional):</p>
+                
+                <div class="form-group">
+                    <label class="form-label">Email del usuario de prueba:</label>
+                    <input type="email" id="test-email" class="form-control" placeholder="ejemplo@negocio.com">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Contraseña (mínimo 6 caracteres):</label>
+                    <input type="password" id="test-password" class="form-control" placeholder="••••••" minlength="6">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Rol:</label>
+                    <select id="test-role" class="form-control">
+                        <option value="business">Negocio</option>
+                        <option value="accountant">Contador</option>
+                    </select>
+                </div>
+                
+                <div class="actions">
+                    <button id="create-test-data-btn" class="btn btn-success">
+                        <i class="fas fa-vial"></i> Crear Datos de Prueba
+                    </button>
+                    
+                    <button id="create-admin-btn" class="btn btn-primary">
+                        <i class="fas fa-user-shield"></i> Crear Usuario Admin
+                    </button>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress" id="setup-progress"></div>
+                </div>
+                
+                <div id="test-data-status" class="status"></div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">6</span>
+            <h3 class="step-title">Finalizar Configuración</h3>
+            <div class="step-content">
+                <p>Verificar que todo esté configurado correctamente:</p>
+                
+                <button id="test-all-btn" class="btn btn-success btn-block">
+                    <i class="fas fa-check-circle"></i> Ejecutar Todas las Pruebas
+                </button>
+                
+                <div id="overall-status" class="status"></div>
+                
+                <div class="actions">
+                    <button id="go-to-app-btn" class="btn btn-success" disabled>
+                        <i class="fas fa-rocket"></i> Ir a la Aplicación
+                    </button>
+                    
+                    <button id="reset-btn" class="btn btn-danger">
+                        <i class="fas fa-redo"></i> Reiniciar Configuración
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="note">
+            <strong>Nota importante:</strong> Este archivo de configuración debe eliminarse o renombrarse después de configurar el sistema. No lo dejes accesible en producción.
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <script>
+        // Estado de la configuración
+        const setupState = {
+            firebaseConfigured: false,
+            authConfigured: false,
+            firestoreConfigured: false,
+            storageConfigured: false,
+            testDataCreated: false
+        };
+        
+        // Referencias a Firebase
+        let auth, db, storage;
+        
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            loadSavedConfig();
+        });
+        
+        // Configurar event listeners
+        function setupEventListeners() {
+            // Guardar configuración de Firebase
+            document.getElementById('save-config-btn').addEventListener('click', saveFirebaseConfig);
+            
+            // Probar Authentication
+            document.getElementById('test-auth-btn').addEventListener('click', testAuthentication);
+            
+            // Inicializar Firestore
+            document.getElementById('init-firestore-btn').addEventListener('click', initFirestore);
+            
+            // Probar Storage
+            document.getElementById('test-storage-btn').addEventListener('click', testStorage);
+            
+            // Crear datos de prueba
+            document.getElementById('create-test-data-btn').addEventListener('click', createTestData);
+            
+            // Crear usuario admin
+            document.getElementById('create-admin-btn').addEventListener('click', createAdminUser);
+            
+            // Probar todo
+            document.getElementById('test-all-btn').addEventListener('click', testAllServices);
+            
+            // Ir a la aplicación
+            document.getElementById('go-to-app-btn').addEventListener('click', function() {
+                window.location.href = 'index.html';
+            });
+            
+            // Reiniciar configuración
+            document.getElementById('reset-btn').addEventListener('click', resetConfiguration);
+        }
+        
+        // Cargar configuración guardada
+        function loadSavedConfig() {
+            const savedConfig = localStorage.getItem('facturaflow_firebase_config');
+            if (savedConfig) {
+                try {
+                    document.getElementById('firebase-config-input').value = savedConfig;
+                    
+                    // Intentar inicializar Firebase con la configuración guardada
+                    const configMatch = savedConfig.match(/apiKey:\s*['"]([^'"]+)['"]/);
+                    if (configMatch) {
+                        initFirebaseApp();
+                    }
+                } catch (error) {
+                    console.error('Error al cargar configuración:', error);
+                }
+            }
+        }
+        
+        // Guardar configuración de Firebase
+        function saveFirebaseConfig() {
+            const configInput = document.getElementById('firebase-config-input').value.trim();
+            const statusElement = document.getElementById('config-status');
+            
+            if (!configInput) {
+                showStatus(statusElement, 'Por favor pega tu configuración de Firebase', 'error');
+                return;
+            }
+            
+            // Extraer valores de la configuración
+            try {
+                // Buscar los valores usando regex
+                const apiKey = extractValue(configInput, 'apiKey');
+                const authDomain = extractValue(configInput, 'authDomain');
+                const projectId = extractValue(configInput, 'projectId');
+                const storageBucket = extractValue(configInput, 'storageBucket');
+                const messagingSenderId = extractValue(configInput, 'messagingSenderId');
+                const appId = extractValue(configInput, 'appId');
+                
+                // Validar que todos los campos existan
+                if (!apiKey || !authDomain || !projectId || !storageBucket || !messagingSenderId || !appId) {
+                    throw new Error('Configuración incompleta');
+                }
+                
+                // Guardar en localStorage
+                localStorage.setItem('facturaflow_firebase_config', configInput);
+                
+                // Guardar también en un formato parseado
+                const parsedConfig = {
+                    apiKey,
+                    authDomain,
+                    projectId,
+                    storageBucket,
+                    messagingSenderId,
+                    appId
+                };
+                
+                localStorage.setItem('facturaflow_firebase_parsed', JSON.stringify(parsedConfig));
+                
+                // Inicializar Firebase
+                if (initFirebaseApp()) {
+                    setupState.firebaseConfigured = true;
+                    showStatus(statusElement, '✅ Configuración de Firebase guardada correctamente', 'success');
+                    
+                    // Habilitar botones dependientes
+                    document.getElementById('test-auth-btn').disabled = false;
+                }
+            } catch (error) {
+                showStatus(statusElement, `❌ Error: ${error.message}. Verifica el formato de la configuración.`, 'error');
+            }
+        }
+        
+        // Extraer valor de la configuración
+        function extractValue(config, key) {
+            const regex = new RegExp(`${key}:\\s*['"]([^'"]+)['"]`);
+            const match = config.match(regex);
+            return match ? match[1] : null;
+        }
+        
+        // Inicializar la app de Firebase
+        function initFirebaseApp() {
+            try {
+                const savedConfig = localStorage.getItem('facturaflow_firebase_parsed');
+                if (!savedConfig) {
+                    return false;
+                }
+                
+                const firebaseConfig = JSON.parse(savedConfig);
+                
+                // Verificar si Firebase ya está inicializado
+                if (firebase.apps.length === 0) {
+                    const app = firebase.initializeApp(firebaseConfig);
+                    auth = firebase.auth();
+                    db = firebase.firestore();
+                    storage = firebase.storage();
+                    
+                    // Configurar persistencia
+                    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+                    
+                    return true;
+                } else {
+                    // Ya está inicializado
+                    auth = firebase.auth();
+                    db = firebase.firestore();
+                    storage = firebase.storage();
+                    return true;
+                }
+            } catch (error) {
+                console.error('Error al inicializar Firebase:', error);
+                showStatus(document.getElementById('config-status'), `❌ Error al inicializar Firebase: ${error.message}`, 'error');
+                return false;
+            }
+        }
+        
+        // Probar Authentication
+        function testAuthentication() {
+            const statusElement = document.getElementById('auth-status');
+            
+            if (!auth) {
+                showStatus(statusElement, '❌ Firebase no está configurado', 'error');
+                return;
+            }
+            
+            showStatus(statusElement, 'Probando Authentication...', 'info');
+            
+            // Intentar crear un usuario de prueba temporal
+            const testEmail = `test_${Date.now()}@example.com`;
+            const testPassword = 'password123';
+            
+            auth.createUserWithEmailAndPassword(testEmail, testPassword)
+                .then(userCredential => {
+                    // Usuario creado exitosamente
+                    showStatus(statusElement, '✅ Authentication configurado correctamente', 'success');
+                    
+                    // Eliminar el usuario de prueba
+                    return userCredential.user.delete();
+                })
+                .then(() => {
+                    setupState.authConfigured = true;
+                    document.getElementById('init-firestore-btn').disabled = false;
+                    document.getElementById('test-storage-btn').disabled = false;
+                })
+                .catch(error => {
+                    if (error.code === 'auth/email-already-in-use') {
+                        // El email ya existe, lo cual está bien para la prueba
+                        showStatus(statusElement, '✅ Authentication configurado correctamente (email ya existe)', 'success');
+                        setupState.authConfigured = true;
+                        document.getElementById('init-firestore-btn').disabled = false;
+                        document.getElementById('test-storage-btn').disabled = false;
+                    } else if (error.code === 'auth/operation-not-allowed') {
+                        showStatus(statusElement, '❌ Authentication no está habilitado. Activa "Correo electrónico/contraseña" en Firebase Console.', 'error');
+                    } else {
+                        showStatus(statusElement, `❌ Error en Authentication: ${error.message}`, 'error');
+                    }
+                });
+        }
+        
+        // Inicializar Firestore
+        async function initFirestore() {
+            const statusElement = document.getElementById('firestore-status');
+            
+            if (!db) {
+                showStatus(statusElement, '❌ Firebase no está configurado', 'error');
+                return;
+            }
+            
+            showStatus(statusElement, 'Inicializando Firestore...', 'info');
+            
+            try {
+                // Probar la conexión a Firestore
+                const testRef = db.collection('_setup_test').doc('test');
+                
+                // Intentar escribir un documento de prueba
+                await testRef.set({
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    test: true
+                });
+                
+                // Intentar leer el documento
+                await testRef.get();
+                
+                // Eliminar el documento de prueba
+                await testRef.delete();
+                
+                showStatus(statusElement, '✅ Firestore configurado correctamente', 'success');
+                setupState.firestoreConfigured = true;
+                
+                // Habilitar creación de datos de prueba
+                document.getElementById('create-test-data-btn').disabled = false;
+                document.getElementById('create-admin-btn').disabled = false;
+                
+            } catch (error) {
+                if (error.code === 'permission-denied') {
+                    showStatus(statusElement, '❌ Permisos denegados. Aplica las reglas de seguridad en Firebase Console.', 'error');
+                } else {
+                    showStatus(statusElement, `❌ Error en Firestore: ${error.message}`, 'error');
+                }
+            }
+        }
+        
+        // Probar Storage
+        async function testStorage() {
+            const statusElement = document.getElementById('storage-status');
+            
+            if (!storage) {
+                showStatus(statusElement, '❌ Firebase no está configurado', 'error');
+                return;
+            }
+            
+            showStatus(statusElement, 'Probando Storage...', 'info');
+            
+            try {
+                // Crear un archivo de prueba pequeño
+                const testContent = 'FacturaFlow Setup Test';
+                const blob = new Blob([testContent], { type: 'text/plain' });
+                
+                // Subir a Storage
+                const storageRef = storage.ref();
+                const testRef = storageRef.child(`_setup_test/test_${Date.now()}.txt`);
+                
+                await testRef.put(blob);
+                
+                // Obtener URL de descarga
+                const downloadURL = await testRef.getDownloadURL();
+                
+                // Eliminar el archivo de prueba
+                await testRef.delete();
+                
+                showStatus(statusElement, '✅ Storage configurado correctamente', 'success');
+                setupState.storageConfigured = true;
+                
+            } catch (error) {
+                if (error.code === 'storage/unauthorized') {
+                    showStatus(statusElement, '❌ Permisos denegados. Aplica las reglas de seguridad en Firebase Console.', 'error');
+                } else {
+                    showStatus(statusElement, `❌ Error en Storage: ${error.message}`, 'error');
+                }
+            }
+        }
+        
+        // Crear datos de prueba
+        async function createTestData() {
+            const email = document.getElementById('test-email').value.trim();
+            const password = document.getElementById('test-password').value.trim();
+            const role = document.getElementById('test-role').value;
+            
+            const statusElement = document.getElementById('test-data-status');
+            
+            if (!email || !password) {
+                showStatus(statusElement, 'Por favor completa todos los campos', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showStatus(statusElement, 'La contraseña debe tener al menos 6 caracteres', 'error');
+                return;
+            }
+            
+            if (!auth || !db) {
+                showStatus(statusElement, 'Firebase no está configurado correctamente', 'error');
+                return;
+            }
+            
+            showStatus(statusElement, 'Creando datos de prueba...', 'info');
+            updateProgress(20);
+            
+            try {
+                // Crear usuario
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const userId = userCredential.user.uid;
+                
+                updateProgress(40);
+                
+                // Guardar información del usuario en Firestore
+                await db.collection('users').doc(userId).set({
+                    name: role === 'business' ? 'Negocio de Prueba' : 'Contador de Prueba',
+                    email: email,
+                    role: role,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                updateProgress(60);
+                
+                // Si es un negocio, crear datos de ejemplo
+                if (role === 'business') {
+                    // Crear clientes de ejemplo
+                    const clients = [
+                        {
+                            name: 'Cliente Corporativo S.A.',
+                            email: 'cliente1@empresa.com',
+                            phone: '+54 11 1234-5678',
+                            taxId: '30-12345678-9',
+                            address: 'Av. Corrientes 1234, Buenos Aires',
+                            notes: 'Cliente preferencial',
+                            userId: userId,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        },
+                        {
+                            name: 'Distribuidora Mayorista',
+                            email: 'ventas@distribuidora.com',
+                            phone: '+54 341 987-6543',
+                            taxId: '33-87654321-0',
+                            address: 'Ruta 9 Km 125, Rosario',
+                            notes: 'Paga a 30 días',
+                            userId: userId,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        }
+                    ];
+                    
+                    for (const client of clients) {
+                        await db.collection('clients').add(client);
+                    }
+                    
+                    updateProgress(80);
+                    
+                    // Crear facturas de ejemplo
+                    const invoices = [
+                        {
+                            type: 'received',
+                            entityId: 'supplier_1',
+                            entityName: 'Proveedor de Oficina',
+                            number: 'A-001-00012345',
+                            date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // 30 días atrás
+                            amount: 12500.50,
+                            status: 'paid',
+                            notes: 'Compra de materiales de oficina',
+                            userId: userId,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        },
+                        {
+                            type: 'issued',
+                            entityId: 'client_1',
+                            entityName: 'Cliente Corporativo S.A.',
+                            number: '001-00012346',
+                            date: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000), // 15 días atrás
+                            amount: 25000.00,
+                            status: 'pending',
+                            notes: 'Servicio de consultoría',
+                            userId: userId,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        }
+                    ];
+                    
+                    for (const invoice of invoices) {
+                        await db.collection('invoices').add(invoice);
+                    }
+                    
+                    // Crear presupuesto de ejemplo
+                    const budget = {
+                        clientId: 'client_1',
+                        clientName: 'Cliente Corporativo S.A.',
+                        number: 'PR-2023-001',
+                        date: new Date().toISOString().split('T')[0],
+                        validity: 30,
+                        items: [
+                            {
+                                description: 'Desarrollo de sistema web',
+                                quantity: 10,
+                                price: 1500,
+                                total: 15000
+                            },
+                            {
+                                description: 'Diseño UX/UI',
+                                quantity: 5,
+                                price: 800,
+                                total: 4000
+                            }
+                        ],
+                        total: 19000,
+                        status: 'approved',
+                        notes: 'Presupuesto aprobado por el cliente',
+                        userId: userId,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    };
+                    
+                    await db.collection('budgets').add(budget);
+                }
+                
+                updateProgress(100);
+                
+                setupState.testDataCreated = true;
+                showStatus(statusElement, '✅ Datos de prueba creados exitosamente', 'success');
+                
+                // Mostrar credenciales
+                setTimeout(() => {
+                    alert(`✅ Datos de prueba creados\n\nCredenciales:\nEmail: ${email}\nContraseña: ${password}\nRol: ${role === 'business' ? 'Negocio' : 'Contador'}\n\nPuedes iniciar sesión en la aplicación con estas credenciales.`);
+                }, 500);
+                
+            } catch (error) {
+                updateProgress(0);
+                
+                if (error.code === 'auth/email-already-in-use') {
+                    showStatus(statusElement, `❌ El email ${email} ya está registrado`, 'error');
+                } else {
+                    showStatus(statusElement, `❌ Error al crear datos de prueba: ${error.message}`, 'error');
+                }
+            }
+        }
+        
+        // Crear usuario administrador
+        async function createAdminUser() {
+            const email = prompt('Ingresa el email para el usuario administrador:');
+            if (!email) return;
+            
+            const password = prompt('Ingresa la contraseña (mínimo 6 caracteres):');
+            if (!password || password.length < 6) {
+                alert('La contraseña debe tener al menos 6 caracteres');
+                return;
+            }
+            
+            const name = prompt('Ingresa el nombre del administrador:') || 'Administrador';
+            const role = prompt('Ingresa el rol (business/accountant):') || 'business';
+            
+            const statusElement = document.getElementById('test-data-status');
+            
+            if (!auth || !db) {
+                showStatus(statusElement, 'Firebase no está configurado correctamente', 'error');
+                return;
+            }
+            
+            showStatus(statusElement, 'Creando usuario administrador...', 'info');
+            
+            try {
+                // Crear usuario
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const userId = userCredential.user.uid;
+                
+                // Guardar como administrador
+                await db.collection('users').doc(userId).set({
+                    name: name,
+                    email: email,
+                    role: role,
+                    isAdmin: true,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                showStatus(statusElement, '✅ Usuario administrador creado exitosamente', 'success');
+                
+                // Mostrar credenciales
+                setTimeout(() => {
+                    alert(`✅ Usuario administrador creado\n\nCredenciales:\nEmail: ${email}\nContraseña: ${password}\nNombre: ${name}\nRol: ${role}\n\nGuarda estas credenciales en un lugar seguro.`);
+                }, 500);
+                
+            } catch (error) {
+                if (error.code === 'auth/email-already-in-use') {
+                    showStatus(statusElement, `❌ El email ${email} ya está registrado`, 'error');
+                } else {
+                    showStatus(statusElement, `❌ Error al crear usuario administrador: ${error.message}`, 'error');
+                }
+            }
+        }
+        
+        // Probar todos los servicios
+        async function testAllServices() {
+            const statusElement = document.getElementById('overall-status');
+            
+            showStatus(statusElement, 'Ejecutando pruebas completas...', 'info');
+            
+            // Verificar Firebase configurado
+            if (!setupState.firebaseConfigured) {
+                showStatus(statusElement, '❌ Firebase no está configurado', 'error');
+                return;
+            }
+            
+            // Probar Authentication
+            if (!setupState.authConfigured) {
+                showStatus(statusElement, '⚠️ Authentication no probado. Ejecuta la prueba de Authentication.', 'info');
+            }
+            
+            // Probar Firestore
+            if (!setupState.firestoreConfigured) {
+                showStatus(statusElement, '⚠️ Firestore no probado. Ejecuta la prueba de Firestore.', 'info');
+            }
+            
+            // Probar Storage
+            if (!setupState.storageConfigured) {
+                showStatus(statusElement, '⚠️ Storage no probado. Ejecuta la prueba de Storage.', 'info');
+            }
+            
+            // Si todo está bien
+            if (setupState.firebaseConfigured && setupState.authConfigured && 
+                setupState.firestoreConfigured && setupState.storageConfigured) {
+                
+                showStatus(statusElement, '✅ ¡Todas las pruebas pasaron! El sistema está listo para usar.', 'success');
+                
+                // Habilitar botón para ir a la aplicación
+                document.getElementById('go-to-app-btn').disabled = false;
+                
+                // Crear archivo firebase-config.js automáticamente
+                createFirebaseConfigFile();
+            } else {
+                showStatus(statusElement, '⚠️ Algunas pruebas no se completaron. Revisa los pasos anteriores.', 'info');
+            }
+        }
+        
+        // Crear archivo firebase-config.js automáticamente
+        function createFirebaseConfigFile() {
+            try {
+                const savedConfig = localStorage.getItem('facturaflow_firebase_config');
+                if (savedConfig) {
+                    // Extraer solo la parte de configuración
+                    const configMatch = savedConfig.match(/const firebaseConfig = \{[\s\S]*?\};/);
+                    if (configMatch) {
+                        const configContent = configMatch[0] + '\n\n' +
+                            '// Inicializar Firebase\n' +
+                            'const app = firebase.initializeApp(firebaseConfig);\n' +
+                            'const auth = firebase.auth();\n' +
+                            'const db = firebase.firestore();\n' +
+                            'const storage = firebase.storage();\n';
+                        
+                        // Crear un blob con el contenido
+                        const blob = new Blob([configContent], { type: 'text/javascript' });
+                        
+                        // Crear un enlace de descarga
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'firebase-config.js';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                        
+                        setTimeout(() => {
+                            alert('✅ Archivo firebase-config.js generado. Descárgalo y reemplaza el archivo existente en tu proyecto.');
+                        }, 500);
+                    }
+                }
+            } catch (error) {
+                console.error('Error al crear archivo de configuración:', error);
+            }
+        }
+        
+        // Reiniciar configuración
+        function resetConfiguration() {
+            if (confirm('¿Estás seguro de reiniciar toda la configuración? Esto eliminará todos los datos guardados.')) {
+                // Limpiar localStorage
+                localStorage.removeItem('facturaflow_firebase_config');
+                localStorage.removeItem('facturaflow_firebase_parsed');
+                
+                // Reiniciar estado
+                setupState.firebaseConfigured = false;
+                setupState.authConfigured = false;
+                setupState.firestoreConfigured = false;
+                setupState.storageConfigured = false;
+                setupState.testDataCreated = false;
+                
+                // Limpiar formularios
+                document.getElementById('firebase-config-input').value = '';
+                document.getElementById('test-email').value = '';
+                document.getElementById('test-password').value = '';
+                
+                // Limpiar mensajes de estado
+                document.querySelectorAll('.status').forEach(el => {
+                    el.className = 'status';
+                    el.textContent = '';
+                });
+                
+                // Reiniciar progress bar
+                updateProgress(0);
+                
+                // Deshabilitar botones
+                document.getElementById('test-auth-btn').disabled = true;
+                document.getElementById('init-firestore-btn').disabled = true;
+                document.getElementById('test-storage-btn').disabled = true;
+                document.getElementById('create-test-data-btn').disabled = true;
+                document.getElementById('create-admin-btn').disabled = true;
+                document.getElementById('go-to-app-btn').disabled = true;
+                
+                // Cerrar sesión de Firebase si está activa
+                if (auth) {
+                    auth.signOut();
+                }
+                
+                alert('✅ Configuración reiniciada. Puedes comenzar de nuevo.');
+            }
+        }
+        
+        // Mostrar estado
+        function showStatus(element, message, type) {
+            element.textContent = message;
+            element.className = 'status ' + type;
+        }
+        
+        // Actualizar barra de progreso
+        function updateProgress(percent) {
+            const progressBar = document.getElementById('setup-progress');
+            progressBar.style.width = percent + '%';
+        }
+    </script>
+</body>
+</html>
